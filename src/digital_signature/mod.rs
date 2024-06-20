@@ -1,14 +1,8 @@
-use std::fmt::Formatter;
-
-use ring::{
-    digest::{self, Digest},
-    rand::{self, SecureRandom},
-};
+use ring::digest::{self, Digest};
+use rsa::RsaPrivateKey;
+use rsa::RsaPublicKey;
+use rsa::{Hash, PaddingScheme, PublicKey};
 use serde::{Deserialize, Serialize};
-pub trait Debug {
-    // Required method
-    fn fmt(&self, f: &mut Formatter<'_>) -> String;
-}
 
 #[derive(Debug, Serialize, Deserialize)]
 struct User {
@@ -22,6 +16,7 @@ impl User {
         let id = digest::digest(&digest::SHA256, self.name.as_bytes());
         id
     }
+    fn genarate_signature() {}
 }
 
 pub fn digital_signature() {
