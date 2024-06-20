@@ -1,6 +1,7 @@
 use std::fmt::Formatter;
 
 
+use axum::http::version;
 use ring::{
     digest::{self, Digest},
     rand::{self, SecureRandom},
@@ -35,9 +36,17 @@ pub fn digital_signature() {
         id: "1".to_string(),
         name: "John Doe".to_string(),
     };
+    let user2 = User {
+        id: "2".to_string(),
+        name: "Jane Doe".to_string(),
+    };
     let signature = user.generate_token();
+    let signature2 = user2.generate_token();
     println!("Signature: {:?}", signature);
+    println!("Signature: {:?}", signature2);
     let verified = user.verify_signature(&signature);
+    let verified2 = user2.verify_signature(&signature2);
     println!("Signature verified: {:?}", verified);
+    println!("Signature verified: {:?}", verified2);
 }
 
