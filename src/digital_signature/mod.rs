@@ -1,5 +1,6 @@
 use std::fmt::Formatter;
 
+
 use ring::{
     digest::{self, Digest},
     rand::{self, SecureRandom},
@@ -22,6 +23,11 @@ impl User {
         let id = digest::digest(&digest::SHA256, self.name.as_bytes());
         id
     }
+    
+    fn verify_signature(&self, signature: &Digest) -> bool {
+        let id = digest::digest(&digest::SHA256, self.name.as_bytes());
+        id.as_ref() == signature.as_ref()
+    }
 }
 
 pub fn digital_signature() {
@@ -31,6 +37,7 @@ pub fn digital_signature() {
     };
     let signature = user.generate_token();
     println!("Signature: {:?}", signature);
-    // let verified = user.verify_signature(&signature);
-    // println!("Signature verified: {:?}", verified);
+    let verified = user.verify_signature(&signature);
+    println!("Signature verified: {:?}", verified);
 }
+
