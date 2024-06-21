@@ -4,6 +4,8 @@ use rsa::{Hash, PaddingScheme, PublicKey, RsaPrivateKey, RsaPublicKey};
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 
+use crate::CreateUser;
+
 #[derive(Debug, Serialize, Deserialize)]
 struct User {
     id: String,
@@ -47,13 +49,12 @@ impl User {
     }
 }
 
-pub fn digital_signature() {
+pub fn digital_signature(create_user: CreateUser) {
     let user = User {
-        id: "1".to_string(),
-        name: "John Doe".to_string(),
+        id: create_user.id,
+        name: create_user.name,
     };
     let signature = user.generate_token();
     println!("Signature: {:?}", signature);
-    let vote = User::cast_vote();
-    println!("Signature: {:?}", vote);
+    User::cast_vote();
 }

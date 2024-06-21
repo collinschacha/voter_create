@@ -11,7 +11,7 @@ use serde::Deserialize;
 mod digital_signature;
 
 #[derive(Deserialize, Debug)]
-struct CreateUser {
+pub struct CreateUser {
     id: String,
     name: String,
 }
@@ -28,11 +28,12 @@ async fn main() {
     async fn root() {}
     async fn get_voters() {
         // get ussers
-        digital_signature::digital_signature()
     }
     async fn create_voters(Json(payload): Json<CreateUser>) {
         println!("Received payload {:#?}", payload);
         //hash user then store them in the database
+
+        digital_signature::digital_signature(payload)
     }
 
     // which calls one of these handlers
